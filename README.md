@@ -19,3 +19,4 @@ It allows users to sign up, log in, send money, view transaction history, and re
 2. Install dependencies: `npm install`
 3. Start server: `node server.js`
 4. Open frontend in browser.
+![SmartPay Screenshot](https://github.com/Sadiyakhanem/offline-smartpay/blob/master/assets/Screenshot%20(56).png)
