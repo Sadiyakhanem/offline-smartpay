@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SmartPay Login / Signup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Poppins&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background:  rgba(73, 67, 158, 0.493);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .auth-container {
+      background: rgba(53, 48, 125, 0.493);
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      width: 320px;
+      text-align: center;
+      color: #fff;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      font-size: 14px;
+    }
+
+    input::placeholder {
+      color: #ccc;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #3f2b96;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #e0e0e0;
+    }
+
+    .toggle {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+
+    .toggle span {
+      color: #ffe;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-container">
+    <h1 id="formTitle">Login to SmartPay</h1>
+    <form id="authForm">
+      <input type="email" placeholder="Email" id="email" required />
+      <input type="password" placeholder="Password" id="password" required />
+      <input type="text" placeholder="Phone Number" id="phone" style="display: none;" />
+      <button type="submit">Login</button>
+    </form>
+    <div class="toggle">
+      <span id="toggleMode">
+        Don't have an account? <span style="cursor:pointer; text-decoration: underline;">Signup</span>
+      </span>
+    </div>
+  </div>
+
+
+  <script src="js/auth.js"></script>
+ 
+  
+</body>
+</html>

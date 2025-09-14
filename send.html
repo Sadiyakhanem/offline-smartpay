@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Send Money - SmartPay</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Poppins&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #3f2b96, #a8c0ff);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .navbar {
+      background-color: rgba(255, 255, 255, 0.08);
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(10px);
+      color: white;
+    }
+
+    .logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 20px;
+    }
+
+    nav a {
+      margin: 0 12px;
+      text-decoration: none;
+      color: #ffffff;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #ffff66;
+    }
+
+    .send-section {
+      flex: 1;
+      padding: 40px 20px;
+      border-radius: 30px;
+      max-width: 500px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .send-section h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 26px;
+      margin-bottom: 30px;
+    }
+
+    .send-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .send-form input {
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+    }
+
+    .btn {
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 12px;
+      background-color: #ffffff;
+      color: #3f2b96;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #f1f1f1;
+    }
+
+    .neon {
+      background-color: #fffa72;
+      color: #000;
+    }
+
+    #reader {
+      margin-top: 30px;
+      width: 300px;
+      background: white;
+      border-radius: 12px;
+      padding: 10px;
+    }
+
+    .fade-in {
+      animation: fadeIn 0.7s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">💰 SmartPay®</div>
+    <nav>
+      <a href="dashboard.html">Wallet</a>
+      <a href="send.html">Send 🚀</a>
+      <a href="history.html">History 📜</a>
+    </nav>
+  </header>
+
+  <main class="send-section fade-in">
+    <h1 class="glow">Send Money Instantly</h1>
+    <form class="send-form" id="sendForm">
+      <input type="text" placeholder="Receiver Email" id="receiver" required />
+      <input type="number" placeholder="Amount (₹)" id="amount" required />
+      <button type="submit" class="btn neon">💸 Send</button>
+      <button type="button" class="btn" onclick="startScan()">📷 Scan QR</button>
+    </form>
+
+    <div id="reader" style="display: none;"></div>
+  </main>
+<div id="footer-placeholder"></div>
+
+  <script src="js/send.js"></script>
+  <script>
+    
+  fetch("components/footer.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("footer-placeholder").innerHTML = data;
+    });
+
+
+    function startScan() {
+      const reader = document.getElementById("reader");
+      reader.style.display = "block";
+
+      const html5QrCode = new Html5Qrcode("reader");
+      Html5Qrcode.getCameras().then(cameras => {
+        if (cameras && cameras.length) {
+          html5QrCode.start(
+            cameras[0].id,
+            { fps: 10, qrbox: 250 },
+            (decodedText) => {
+              document.getElementById("receiver").value = decodedText;
+              html5QrCode.stop().then(() => {
+                reader.style.display = "none";
+                reader.innerHTML = "";
+              });
+            },
+            (errorMessage) => {
+              // Ignore errors
+            }
+          );
+        }
+      }).catch(err => {
+        alert("Camera access failed: " + err);
+      });
+    }
+  </script>
+</body>
+</html>

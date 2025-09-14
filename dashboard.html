@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SmartPay | Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Poppins&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(120deg, #3f2b96, #a8c0ff);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .navbar {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(10px);
+      color: white;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    nav a {
+      margin: 0 10px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #fffa72;
+    }
+
+    .send-section {
+      flex: 1;
+      text-align: center;
+      padding: 60px 20px;
+      color: white;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-family: 'Orbitron', sans-serif;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-size: 16px;
+      background-color: #ffffff;
+      color: #3f2b96;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s ease;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn:hover {
+      background-color: #f0f0f0;
+    }
+
+    .fade-in {
+      animation: fadeIn 0.7s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">💰 SmartPay®</div>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="send.html">Send</a>
+      <a href="receive.html">Receive</a>
+      <a href="history.html">History</a>
+      <a href="#" id="logout">Logout</a>
+    </nav>
+  </header>
+
+  <section class="send-section fade-in">
+    <h1>Welcome, <span id="userName">...</span></h1>
+    <p>Your balance: ₹<span id="balance">0</span></p>
+
+    <div class="btn-group">
+      <a href="send.html" class="btn">🚀 Send Money</a>
+      <a href="receive.html" class="btn">📥 Receive</a>
+      <a href="history.html" class="btn">📜 View History</a>
+    </div>
+  </section>
+  <section class="features fade-in">
+    <div class="features-content">
+      <div class="features-text">
+        <h2>Offline-Powered Payments, Zero Wait</h2>
+        <p>Send instantly — Transfer Funds Without Network Hassles</p>
+        <a href="send.html" class="btn dark">Send Money</a>
+      </div>
+      <video src="assets/send money.mp4" autoplay muted loop controls playsinline id alt="Money Transfer"
+        class="features-video"></video>
+    </div>
+  </section>
+
+
+  <div id="footer-placeholder"></div>
+
+
+  <script>
+     fetch("components/footer.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("footer-placeholder").innerHTML = data;
+    });
+    const userId = localStorage.getItem("currentUserId");
+
+    if (!userId) {
+      alert("Please login first.");
+      window.location.href = "auth.html";
+    } else {
+      fetch(`http://localhost:5000/api/auth/user/${userId}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.error) throw new Error(data.error);
+          document.getElementById("userName").textContent = data.username;
+          document.getElementById("balance").textContent = data.balance;
+        })
+        .catch(err => {
+          console.error("Error fetching user:", err);
+          alert("❌ " + err.message);
+          localStorage.removeItem("currentUser");
+          localStorage.removeItem("currentUserId");
+          window.location.href = "auth.html";
+        });
+    }
+
+    document.getElementById("logout").addEventListener("click", () => {
+      localStorage.removeItem("currentUser");
+      localStorage.removeItem("currentUserId");
+      window.location.href = "auth.html";
+    });
+  </script>
+</body>
+</html>
+

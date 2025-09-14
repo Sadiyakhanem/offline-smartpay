@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SmartPay | History</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="style.css" />
+  
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Poppins&display=swap" rel="stylesheet">
+<style>
+  .history-list {
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
+}
+
+.history-card {
+  background: #ffffff;
+  border: 1px solid #ccc;
+  border-left: 5px solid #00cc66;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  font-family: 'Poppins', sans-serif;
+}
+
+.history-card p {
+  margin: 5px 0;
+  font-size: 15px;
+}
+
+</style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">💰 SmartPay®</div>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="send.html">Send</a>
+      <a href="receive.html">Receive</a>
+      <a href="history.html">History</a>
+      <a href="#" id="logout">Logout</a>
+    </nav>
+  </header>
+
+  <section class="history-section fade-in">
+    <h1 class="glow">📜 Transaction History</h1>
+    <div id="historyList" class="history-list"></div>
+  </section>
+  <div id="footer-placeholder"></div>
+
+
+  <script src="js/history.js">
+     fetch("components/footer.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("footer-placeholder").innerHTML = data;
+    });
+  </script>
+</body>
+</html>

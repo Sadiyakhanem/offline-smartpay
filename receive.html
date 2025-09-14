@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Receive Money - SmartPay</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Poppins&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to right, #3f2b96, #a8c0ff);
+      font-family: 'Poppins', sans-serif;
+       color: #fff;
+    }
+
+    .receive-section {
+      max-width: 400px;
+      margin: 60px auto;
+       background-color: rgba(255, 255, 255, 0.08);
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #1e1e1e;
+      margin-bottom: 20px;
+    }
+
+    #userEmail {
+      font-weight: bold;
+      font-size: 16px;
+      color: #1a1a1a;
+      margin-bottom: 10px;
+    }
+
+    #qrcode {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .navbar {
+      background-color: #2f3542;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 30px;
+      align-items: center;
+    }
+
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      margin-left: 20px;
+    }
+
+    .logo {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">💰 SmartPay®</div>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="send.html">Send</a>
+      <a href="receive.html">Receive</a>
+      <a href="history.html">History</a>
+      <a href="#" id="logout">Logout</a>
+    </nav>
+  </header>
+
+  <main class="receive-section">
+    <h1>Receive Money</h1>
+    <p>Your SmartPay ID:</p>
+    <h3 id="userEmail">loading...</h3>
+    <p>Scan this QR to receive your money:</p>
+    <div id="qrcode"></div>
+  </main>
+<div id="footer-placeholder"></div>
+
+  <script>
+    
+  fetch("components/footer.html")
+    .then(res => res.text())
+    .then(data => {
+      document.getElementById("footer-placeholder").innerHTML = data;
+    });
+
+
+    const email = localStorage.getItem("currentUser");
+
+    if (!email) {
+      alert("Please login first.");
+      window.location.href = "auth.html";
+    }
+
+    document.getElementById("userEmail").textContent = email;
+
+    const qrDiv = document.getElementById("qrcode");
+    new QRCode(qrDiv, {
+      text: email,
+      width: 200,
+      height: 200,
+      colorDark: "#000000",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H
+    });
+
+    document.getElementById("logout").addEventListener("click", () => {
+      localStorage.removeItem("currentUser");
+      localStorage.removeItem("currentUserId");
+      window.location.href = "auth.html";
+    });
+  </script>
+</body>
+</html>
